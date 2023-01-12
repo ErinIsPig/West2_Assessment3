@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ImprovedQuestion.mapper.Mapper">
+    <!--int insertCityInfo(city city);-->
+    <insert id="insertCityInfo" >
+        insert into city(id,name,lat,lon)values(#{id},#{name},#{lat},#{lon});
+    </insert>
+
+    <!--int insertWeather(weather weather);-->
+    <insert id="insertWeather">
+        insert into weather(id,fxDate,tempMax,tempMin,textDay)values(#{id},#{fxDate},#{tempMax},#{tempMin},#{textDay});
+    </insert>
+
+    <!--int getCityId(@Param("name") String name);-->
+    <select id="getCityId" resultType="int">
+        select id from city where name = #{name};
+    </select>
+
+    <!--city getCityInfo(@Param("name") String name);-->
+    <select id="getCityInfo" resultType="city">
+        select * from city where name = #{name};
+    </select>
+
+    <!--List<weather> getWeatherInfo(@Param("name") String name);-->
+    <select id="getWeatherInfo" resultType="weather">
+        select * from weather where id = (select distinct id from city where name = #{name});
+    </select>
+
+    <!--int deleteCity();-->
+    <delete id="deleteCity">
+        delete from city;
+    </delete>
+
+    <!--int deleteWeather();-->
+    <delete id="deleteWeather">
+        delete from weather;
+    </delete>
+
+    <!--int getIdFromWeather();-->
+    <select id="getIdFromWeather" resultType="int">
+        select id from weather;
+    </select>
+
+    <!--int deleteWeatherById(int id);-->
+    <delete id="deleteWeatherById">
+        delete from weather where id = #{id};
+    </delete>
+
+    <!--List<city> getAllCity();-->
+    <select id="getAllCity" resultType="city">
+        select * from city;
+    </select>
+    <!--List<weather> getAllWeather();-->
+    <select id="getAllWeather" resultType="weather">
+        select * from weather;
+    </select>
+
+    <!--int deleteCityByName(String name);-->
+    <delete id="deleteCityByName">
+        delete from city where name = #{name};
+    </delete>
+
+    <!--int deleteWeatherByName(@Param("name") String name);-->
+    <delete id="deleteWeatherByName">
+        delete from weather where id = (select id from city where name = #{name});
+    </delete>
+
+</mapper>
